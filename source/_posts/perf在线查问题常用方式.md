@@ -35,7 +35,7 @@ Perf是一个linux下的性能调试工具，能够帮助开发者发现哪些�
 perf 是一个包含22种子工具的工具集，以下是最常用的5种：
 * perf list // 用来查看perf所支持的性能事件，有软件的也有硬件的
 * perf stat
-* perf top
+* perf top // top 类似于 Linux 的 top 命令，对系统性能进行实时分析
 * perf record
 * perf report
 
@@ -74,8 +74,9 @@ perf top主要用于实时分析各个函数在某个性能事件上的热度，
 	```c++
 	perf top -e cycles:k   显示内核和模块中，消耗最多CPU周期的函数：
     perf top -e kmem:kmem_cache_alloc 显示分配高速缓存最多的函数
+    可能因为权限问题要加sudo
 	```
-
+perf top加上-p参数可以指定某一个进程
 <h2>perf stat——概览程序的运行情况</h2>
 
 　　面对一个问题程序，最好采用自顶向下的策略。先整体看看该程序运行时各种统计事件的大概，再针对某些方向深入细节。而不要一下子扎进琐碎细节，会一叶障目的。
@@ -152,7 +153,7 @@ perf top主要用于实时分析各个函数在某个性能事件上的热度，
 * Cache-misses: cache 失效的次数。
 * branches：遇到的分支指令数。branch-misses是预测错误的分支指令数。
   
-<h2>Perf示例1, petf的基本使用方式</h2>
+<h2>Perf示例1, perf的基本使用方式</h2>
 
 某业务网络服务程序在运行时出现CPU占用率100%的问题，同时服务性能很差。为了揭开问题产生的原因，我们使用Perf record程序来记录CPU cycles事件，希望能发现是哪些代码占用了大量的CPU时间。为了达到此目的，我们需要执行如下命令：
 
